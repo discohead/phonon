@@ -37,6 +37,10 @@ Additional invariants the renderer enforces: `PYO_SERVER_AUDIO`/`PYO_SERVER_MIDI
 - Composers writing pieces use `from phonon import *`. Escape-hatch imports of Pyo objects (rare) are explicit.
 - Pyo precision is selected at import time: plain `import pyo` is single, `import pyo64 as pyo` is double. Pyo cannot have both extensions live in one process.
 
+## Licensing
+
+Phonon's own source is **MIT** (`LICENSE` at repo root). The vendored Pyo at `pyo-src/` retains its upstream **LGPLv3+** license (`pyo-src/LICENSE`). Source-only distribution (the default — `pip install` from git) does not trigger Pyo's LGPL relink obligation because Pyo is built locally from source. Distributing built artifacts that bundle compiled Pyo binaries (wheels, frozen apps, Docker images with `_pyo.so`/`_pyo64.so` baked in) does trigger the relink obligation; see the `LICENSE` file for the boundary. New Phonon source files do not need a license header (the root `LICENSE` covers them).
+
 ## Workflow
 
 This project uses GitHub Spec Kit for planning (constitution → specs → plans → tasks → implementation). The constitution is the next deliverable; nothing should be implemented before it is ratified. Spec Kit skills are invoked via the Skill tool (`speckit-constitution`, `speckit-specify`, `speckit-plan`, `speckit-tasks`, `speckit-implement`, `speckit-clarify`, `speckit-analyze`).

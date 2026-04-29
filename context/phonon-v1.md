@@ -5,7 +5,7 @@
 Version: v1.1 design specification (revised against vendored Pyo 1.0.6, 2026-04-28)
 Author: Jared (composer) and Claude (collaborator)
 Status: Design complete, implementation pending
-License intent: Open source (license TBD; LGPLv3+ inherited via Pyo if Phonon links Pyo statically)
+License: MIT for Phonon's own source (`LICENSE`); LGPLv3+ retained on vendored Pyo at `pyo-src/`. Built artifacts that bundle Pyo binaries must honor LGPL's relink obligation (see `LICENSE` for details).
 
 ---
 
