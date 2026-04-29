@@ -1,0 +1,42 @@
+# Phonon project gitignore (vendored pyo-src/ has its own)
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+.eggs/
+*.egg-info/
+*.egg
+build/
+dist/
+
+# Tooling
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.coverage
+.coverage.*
+htmlcov/
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Render outputs (not checked in; release artifacts go in performances/ subdirs of pieces)
+*.flac
+*.wav
+*.aif
+*.aiff
+*.gestures

@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+
+<html data-content_root="../../" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Value Converters (SLMap) — Pyo 1.0.6 documentation</title>
+<link href="../../_static/pygments.css?v=03e43079" rel="stylesheet" type="text/css"/>
+<link href="../../_static/agogo.css?v=227e5aac" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sphinx-codeautolink.css?v=b2176991" rel="stylesheet" type="text/css"/>
+<link href="../../_static/autoclasstoc.css?v=08871587" rel="stylesheet" type="text/css"/>
+<script src="../../_static/documentation_options.js?v=e2a723ec"></script>
+<script src="../../_static/doctools.js?v=9bcbadda"></script>
+<script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<link href="../../_static/E-PyoIcon.ico" rel="icon"/>
+<link href="../../about.html" rel="author" title="About these documents"/>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="wxgui.html" rel="next" title="Additional WxPython widgets"/>
+<link href="matrices.html" rel="prev" title="Matrices"/>
+</head><body>
+<div class="header-wrapper" role="banner">
+<div class="header">
+<div class="headertitle"><a href="../../index.html">Pyo 1.0.6 documentation</a></div>
+<div aria-label="Related" class="rel" role="navigation">
+<a accesskey="P" href="matrices.html" title="Matrices">previous</a> |
+          <a accesskey="N" href="wxgui.html" title="Additional WxPython widgets">next</a> |
+          <a accesskey="I" href="../../genindex.html" title="General Index">index</a>
+</div>
+</div>
+</div>
+<div class="content-wrapper">
+<div class="content">
+<div class="sidebar">
+<h3>Table of Contents</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About pyo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../download.html">Installing pyo with pip</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../compiling.html">Compiling pyo from sources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../structure.html">Structure of the library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../gettingstarted.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../winaudioinspect.html">Configuring the audio output (Windows)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../perftips.html">Improve performance of pyo programs</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../constants.html">Constants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../functions/index.html">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../alphabetical.html">Alphabetical class reference</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Classes by category</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/index.html">Advanced tutorials</a></li>
+</ul>
+<search role="search">
+<h3 style="margin-top: 1.5em;">Search</h3>
+<form action="../../search.html" class="search" method="get">
+<input name="q" type="text"/>
+<input type="submit" value="Go"/>
+</form>
+</search>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="bodywrapper">
+<div class="body" role="main">
+<section id="value-converters-slmap">
+<h1>Value Converters (SLMap)<a class="headerlink" href="#value-converters-slmap" title="Link to this heading">¶</a></h1>
+<p>These objects are used to convert values between different ranges.</p>
+<section id="objects-in-this-category">
+<h2>Objects in this category<a class="headerlink" href="#objects-in-this-category" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="#pyo.Map" title="pyo.Map"><code class="xref py py-class docutils literal notranslate"><span class="pre">Map</span></code></a> :     Converts value between 0 and 1 on various scales.</p></li>
+<li><p><a class="reference internal" href="#pyo.SLMap" title="pyo.SLMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">SLMap</span></code></a> :     Base Map class used to manage control sliders.</p></li>
+<li><p><a class="reference internal" href="#pyo.SLMapDur" title="pyo.SLMapDur"><code class="xref py py-class docutils literal notranslate"><span class="pre">SLMapDur</span></code></a> :     SLMap with normalized values for a ‘dur’ slider.</p></li>
+<li><p><a class="reference internal" href="#pyo.SLMapFreq" title="pyo.SLMapFreq"><code class="xref py py-class docutils literal notranslate"><span class="pre">SLMapFreq</span></code></a> :     SLMap with normalized values for a ‘freq’ slider.</p></li>
+<li><p><a class="reference internal" href="#pyo.SLMapMul" title="pyo.SLMapMul"><code class="xref py py-class docutils literal notranslate"><span class="pre">SLMapMul</span></code></a> :     SLMap with normalized values for a ‘mul’ slider.</p></li>
+<li><p><a class="reference internal" href="#pyo.SLMapPan" title="pyo.SLMapPan"><code class="xref py py-class docutils literal notranslate"><span class="pre">SLMapPan</span></code></a> :     SLMap with normalized values for a ‘pan’ slider.</p></li>
+<li><p><a class="reference internal" href="#pyo.SLMapPhase" title="pyo.SLMapPhase"><code class="xref py py-class docutils literal notranslate"><span class="pre">SLMapPhase</span></code></a> :     SLMap with normalized values for a ‘phase’ slider.</p></li>
+<li><p><a class="reference internal" href="#pyo.SLMapQ" title="pyo.SLMapQ"><code class="xref py py-class docutils literal notranslate"><span class="pre">SLMapQ</span></code></a> :     SLMap with normalized values for a ‘q’ slider.</p></li>
+</ul>
+</section>
+<section id="map">
+<h2><em>Map</em><a class="headerlink" href="#map" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyo.Map">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">min</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyo/lib/_maps.html#Map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyo.Map" title="Link to this definition">¶</a></dt>
+<dd><p>Converts value between 0 and 1 on various scales.</p>
+<p>Base class for Map objects.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Args<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>min: int or float</dt><dd><p>Lowest value of the range.</p>
+</dd>
+<dt>max: int or float</dt><dd><p>Highest value of the range.</p>
+</dd>
+<dt>scale: string {‘lin’, ‘log’}</dt><dd><p>Method used to scale the input value on the specified range.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><a class="sphinx-codeautolink-a" href="../../api/classes/map.html#pyo.Map" title="pyo.lib._maps.Map"><span class="n">m</span></a> <span class="o">=</span> <a class="sphinx-codeautolink-a" href="../../api/classes/map.html#pyo.Map" title="pyo.lib._maps.Map"><span class="n">Map</span></a><span class="p">(</span><span class="mf">20.</span><span class="p">,</span> <span class="mf">20000.</span><span class="p">,</span> <span class="s1">'log'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mf">.5</span><span class="p">))</span>
+<span class="go">632.455532034</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="mi">12000</span><span class="p">))</span>
+<span class="go">0.926050416795</span>
+</pre></div>
+</div>
+<div class="autoclasstoc docutils container">
+<p class="rubric">Public Data Attributes:</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">min</span></code></p></td>
+<td><p>int or float.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">max</span></code></p></td>
+<td><p>int or float.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">scale</span></code></p></td>
+<td><p>string.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="autoclasstoc docutils container">
+<p class="rubric">Public Methods:</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>(min, max, scale)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get</span></code>(x)</p></td>
+<td><p>Takes <cite>x</cite> between 0 and 1 and returns scaled value.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set</span></code>(x)</p></td>
+<td><p>Takes <cite>x</cite> in the real range and returns value unscaled (between 0 and 1).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMin</span></code>(x)</p></td>
+<td><p>Replace the <cite>min</cite> attribute.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMax</span></code>(x)</p></td>
+<td><p>Replace the <cite>max</cite> attribute.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setScale</span></code>(x)</p></td>
+<td><p>Replace the <cite>scale</cite> attribute.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr class="docutils"/>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyo.Map.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyo/lib/_maps.html#Map.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyo.Map.get" title="Link to this definition">¶</a></dt>
+<dd><p>Takes <cite>x</cite> between 0 and 1 and returns scaled value.</p>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyo.Map.set">
+<span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyo/lib/_maps.html#Map.set"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyo.Map.set" title="Link to this definition">¶</a></dt>
+<dd><p>Takes <cite>x</cite> in the real range and returns value unscaled
+(between 0 and 1).</p>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyo.Map.setMin">
+<span class="sig-name descname"><span class="pre">setMin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyo/lib/_maps.html#Map.setMin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyo.Map.setMin" title="Link to this definition">¶</a></dt>
+<dd><p>Replace the <cite>min</cite> attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Args<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>x: float</dt><dd><p>New <cite>min</cite> attribute.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyo.Map.setMax">
+<span class="sig-name descname"><span class="pre">setMax</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyo/lib/_maps.html#Map.setMax"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyo.Map.setMax" title="Link to this definition">¶</a></dt>
+<dd><p>Replace the <cite>max</cite> attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Args<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>x: float</dt><dd><p>New <cite>max</cite> attribute.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyo.Map.setScale">
+<span class="sig-name descname"><span class="pre">setScale</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyo/lib/_maps.html#Map.setScale"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyo.Map.setScale" title="Link to this definition">¶</a></dt>
+<dd><p>Replace the <cite>scale</cite> attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Args<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>x: string</dt><dd><p>New <cite>scale</cite> attribute.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="pyo.Map.min">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">min</span></span><a class="headerlink" href="#pyo.Map.min" title="Link to this definition">¶</a></dt>
+<dd><p>int or float. Lowest value of the range.</p>
+</dd></dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="pyo.Map.max">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">max</span></span><a class="headerlink" href="#pyo.Map.max" title="Link to this definition">¶</a></dt>
+<dd><p>int or float. Highest value of the range.</p>
+</dd></dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="pyo.Map.scale">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">scale</span></span><a class="headerlink" href="#pyo.Map.scale" title="Link to this definition">¶</a></dt>
+<dd><p>string. Method used to scale the input value.</p>
+</dd></dl>
+</dd></dl>
+</section>
+<section id="slmap">
+<h2><em>SLMap</em><a class="headerlink" href="#slmap" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyo.SLMap">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SLMap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">min</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">res</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'float'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ramp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.025</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataOnly</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyo/lib/_maps.html#SLMap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyo.SLMap" title="Link to this definition">¶</a></dt>
+<dd><p>Base Map class used to manage control sliders.</p>
+<p>Derived from Map class, a few parameters are added for sliders
+initialization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parent<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyo.Map" title="pyo.Map"><code class="xref py py-class docutils literal notranslate"><span class="pre">Map</span></code></a></p>
+</dd>
+<dt class="field-even">Args<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>min: int or float</dt><dd><p>Smallest value of the range.</p>
+</dd>
+<dt>max: int or float</dt><dd><p>Highest value of the range.</p>
+</dd>
+<dt>scale: string {‘lin’, ‘log’}</dt><dd><p>Method used to scale the input value on the specified range.</p>
+</dd>
+<dt>name: string</dt><dd><p>Name of the attributes the slider is affected to.</p>
+</dd>
+<dt>init: int or float</dt><dd><p>Initial value. Specified in the real range, not between 0 and 1.
+Use <cite>set</cite> method to retrieve the normalized corresponding value.</p>
+</dd>
+<dt>res: string {‘int’, ‘float’}, optional</dt><dd><p>Sets the resolution of the slider. Defaults to ‘float’.</p>
+</dd>
+<dt>ramp: float, optional</dt><dd><p>Ramp time, in seconds, used to smooth the signal sent from slider
+to object’s attribute. Defaults to 0.025.</p>
+</dd>
+<dt>dataOnly: boolean, optional</dt><dd><p>Set this argument to True if the parameter does not accept audio
+signal as control but discrete values. If True, label will be
+marked with a star symbol (*). Defaults to False.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <a class="sphinx-codeautolink-a" href="../../api/classes/server.html#pyo.Server" title="pyo.lib.server.Server"><span class="n">Server</span></a><span class="p">()</span><span class="o">.</span><span class="n">boot</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ifs</span> <span class="o">=</span> <span class="p">[</span><span class="mi">350</span><span class="p">,</span><span class="mi">360</span><span class="p">,</span><span class="mi">375</span><span class="p">,</span><span class="mi">388</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><a class="sphinx-codeautolink-a" href="../../api/classes/map.html#pyo.SLMap" title="pyo.lib._maps.SLMap"><span class="n">slmapfreq</span></a> <span class="o">=</span> <a class="sphinx-codeautolink-a" href="../../api/classes/map.html#pyo.SLMap" title="pyo.lib._maps.SLMap"><span class="n">SLMap</span></a><span class="p">(</span><span class="mf">20.</span><span class="p">,</span> <span class="mf">2000.</span><span class="p">,</span> <span class="s1">'log'</span><span class="p">,</span> <span class="s1">'freq'</span><span class="p">,</span> <span class="n">ifs</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><a class="sphinx-codeautolink-a" href="../../api/classes/map.html#pyo.SLMap" title="pyo.lib._maps.SLMap"><span class="n">slmapfeed</span></a> <span class="o">=</span> <a class="sphinx-codeautolink-a" href="../../api/classes/map.html#pyo.SLMap" title="pyo.lib._maps.SLMap"><span class="n">SLMap</span></a><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="s1">'lin'</span><span class="p">,</span> <span class="s1">'feedback'</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">maps</span> <span class="o">=</span> <span class="p">[</span><a class="sphinx-codeautolink-a" href="../../api/classes/map.html#pyo.SLMap" title="pyo.lib._maps.SLMap"><span class="n">slmapfreq</span></a><span class="p">,</span> <a class="sphinx-codeautolink-a" href="../../api/classes/map.html#pyo.SLMap" title="pyo.lib._maps.SLMap"><span class="n">slmapfeed</span></a><span class="p">,</span> <a class="sphinx-codeautolink-a" href="../../api/classes/map.html#pyo.SLMapMul" title="pyo.lib._maps.SLMapMul"><span class="n">SLMapMul</span></a><span class="p">(</span><span class="mf">.1</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <a class="sphinx-codeautolink-a" href="../../api/classes/generators.html#pyo.SineLoop" title="pyo.lib.generators.SineLoop"><span class="n">SineLoop</span></a><span class="p">(</span><span class="n">freq</span><span class="o">=</span><span class="n">ifs</span><span class="p">,</span> <span class="n">mul</span><span class="o">=</span><span class="mf">.1</span><span class="p">)</span><span class="o">.</span><span class="n">out</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">ctrl</span><span class="p">(</span><span class="n">maps</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="autoclasstoc docutils container">
+<p class="rubric">Public Data Attributes:</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></p></td>
+<td><p>string.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">init</span></code></p></td>
+<td><p>float.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">res</span></code></p></td>
+<td><p>string.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ramp</span></code></p></td>
+<td><p>float.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">dataOnly</span></code></p></td>
+<td><p>boolean.</p></td>
+</tr>
+</tbody>
+</table>
+<details><summary>Inherited from <a class="reference internal" href="#pyo.Map" title="pyo.lib._maps.Map"><code class="xref py py-class docutils literal notranslate"><span class="pre">Map</span></code></a></summary><table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">min</span></code></p></td>
+<td><p>int or float.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">max</span></code></p></td>
+<td><p>int or float.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">scale</span></code></p></td>
+<td><p>string.</p></td>
+</tr>
+</tbody>
+</table>
+</details></div>
+<div class="autoclasstoc docutils container">
+<p class="rubric">Public Methods:</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>(min, max, scale, name, init[, res, ...])</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<details><summary>Inherited from <a class="reference internal" href="#pyo.Map" title="pyo.lib._maps.Map"><code class="xref py py-class docutils literal notranslate"><span class="pre">Map</span></code></a></summary><table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>(min, max, scale)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get</span></code>(x)</p></td>
+<td><p>Takes <cite>x</cite> between 0 and 1 and returns scaled value.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set</span></code>(x)</p></td>
+<td><p>Takes <cite>x</cite> in the real range and returns value unscaled (between 0 and 1).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMin</span></code>(x)</p></td>
+<td><p>Replace the <cite>min</cite> attribute.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMax</span></code>(x)</p></td>
+<td><p>Replace the <cite>max</cite> attribute.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setScale</span></code>(x)</p></td>
+<td><p>Replace the <cite>scale</cite> attribute.</p></td>
+</tr>
+</tbody>
+</table>
+</details></div>
+<hr class="docutils"/>
+<dl class="py property">
+<dt class="sig sig-object py" id="pyo.SLMap.name">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#pyo.SLMap.name" title="Link to this definition">¶</a></dt>
+<dd><p>string. Name of the parameter to control.</p>
+</dd></dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="pyo.SLMap.init">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">init</span></span><a class="headerlink" href="#pyo.SLMap.init" title="Link to this definition">¶</a></dt>
+<dd><p>float. Initial value of the slider.</p>
+</dd></dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="pyo.SLMap.res">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">res</span></span><a class="headerlink" href="#pyo.SLMap.res" title="Link to this definition">¶</a></dt>
+<dd><p>string. Slider resolution {int or float}.</p>
+</dd></dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="pyo.SLMap.ramp">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ramp</span></span><a class="headerlink" href="#pyo.SLMap.ramp" title="Link to this definition">¶</a></dt>
+<dd><p>float. Ramp time in seconds.</p>
+</dd></dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="pyo.SLMap.dataOnly">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dataOnly</span></span><a class="headerlink" href="#pyo.SLMap.dataOnly" title="Link to this definition">¶</a></dt>
+<dd><p>boolean. True if argument does not accept audio stream.</p>
+</dd></dl>
+</dd></dl>
+</section>
+<section id="slmapfreq">
+<h2><em>SLMapFreq</em><a class="headerlink" href="#slmapfreq" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyo.SLMapFreq">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SLMapFreq</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">init</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyo/lib/_maps.html#SLMapFreq"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyo.SLMapFreq" title="Link to this definition">¶</a></dt>
+<dd><p>SLMap with normalized values for a ‘freq’ slider.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parent<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyo.SLMap" title="pyo.SLMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">SLMap</span></code></a></p>
+</dd>
+<dt class="field-even">Args<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>init: int or float, optional</dt><dd><p>Initial value. Specified in the real range, not between 0 and 1.
+Defaults to 1000.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>SLMapFreq values are:</p>
+<ul class="simple">
+<li><p>min = 20.0</p></li>
+<li><p>max = 20000.0</p></li>
+<li><p>scale = ‘log’</p></li>
+<li><p>name = ‘freq’</p></li>
+<li><p>res = ‘float’</p></li>
+<li><p>ramp = 0.025</p></li>
+</ul>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#pyo.SLMap" title="pyo.SLMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">SLMap</span></code></a>, <a class="reference internal" href="#pyo.Map" title="pyo.Map"><code class="xref py py-class docutils literal notranslate"><span class="pre">Map</span></code></a></p>
+</div>
+<div class="autoclasstoc docutils container">
+<p class="rubric">Public Data Attributes:</p>
+<details><summary>Inherited from <a class="reference internal" href="#pyo.SLMap" title="pyo.lib._maps.SLMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">SLMap</span></code></a></summary><table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></p></td>
+<td><p>string.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">init</span></code></p></td>
+<td><p>float.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">res</span></code></p></td>
+<td><p>string.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ramp</span></code></p></td>
+<td><p>float.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">dataOnly</span></code></p></td>
+<td><p>boolean.</p></td>
+</tr>
+</tbody>
+</table>
+</details><details><summary>Inherited from <a class="reference internal" href="#pyo.Map" title="pyo.lib._maps.Map"><code class="xref py py-class docutils literal notranslate"><span class="pre">Map</span></code></a></summary><table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">min</span></code></p></td>
+<td><p>int or float.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">max</span></code></p></td>
+<td><p>int or float.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">scale</span></code></p></td>
+<td><p>string.</p></td>
+</tr>
+</tbody>
+</table>
+</details></div>
+<div class="autoclasstoc docutils container">
+<p class="rubric">Public Methods:</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>([init])</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<details><summary>Inherited from <a class="reference internal" href="#pyo.SLMap" title="pyo.lib._maps.SLMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">SLMap</span></code></a></summary><table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>(min, max, scale, name, init[, res, ...])</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</details><details><summary>Inherited from <a class="reference internal" href="#pyo.Map" title="pyo.lib._maps.Map"><code class="xref py py-class docutils literal notranslate"><span class="pre">Map</span></code></a></summary><table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>(min, max, scale)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get</span></code>(x)</p></td>
+<td><p>Takes <cite>x</cite> between 0 and 1 and returns scaled value.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set</span></code>(x)</p></td>
+<td><p>Takes <cite>x</cite> in the real range and returns value unscaled (between 0 and 1).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMin</span></code>(x)</p></td>
+<td><p>Replace the <cite>min</cite> attribute.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMax</span></code>(x)</p></td>
+<td><p>Replace the <cite>max</cite> attribute.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setScale</span></code>(x)</p></td>
+<td><p>Replace the <cite>scale</cite> attribute.</p></td>
+</tr>
+</tbody>
+</table>
+</details></div>
+</dd></dl>
+</section>
+<hr class="docutils"/>
+<section id="slmapmul">
+<h2><em>SLMapMul</em><a class="headerlink" href="#slmapmul" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyo.SLMapMul">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SLMapMul</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">init</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyo/lib/_maps.html#SLMapMul"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyo.SLMapMul" title="Link to this definition">¶</a></dt>
+<dd><p>SLMap with normalized values for a ‘mul’ slider.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parent<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyo.SLMap" title="pyo.SLMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">SLMap</span></code></a></p>
+</dd>
+<dt class="field-even">Args<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>init: int or float, optional</dt><dd><p>Initial value. Specified in the real range, not between 0 and 1.
+Defaults to 1.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>SLMapMul values are:</p>
+<ul class="simple">
+<li><p>min = 0.0</p></li>
+<li><p>max = 2.0</p></li>
+<li><p>scale = ‘lin’</p></li>
+<li><p>name = ‘mul’</p></li>
+<li><p>res = ‘float’</p></li>
+<li><p>ramp = 0.025</p></li>
+</ul>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#pyo.SLMap" title="pyo.SLMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">SLMap</span></code></a>, <a class="reference internal" href="#pyo.Map" title="pyo.Map"><code class="xref py py-class docutils literal notranslate"><span class="pre">Map</span></code></a></p>
+</div>
+<div class="autoclasstoc docutils container">
+<p class="rubric">Public Data Attributes:</p>
+<details><summary>Inherited from <a class="reference internal" href="#pyo.SLMap" title="pyo.lib._maps.SLMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">SLMap</span></code></a></summary><table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></p></td>
+<td><p>string.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">init</span></code></p></td>
+<td><p>float.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">res</span></code></p></td>
+<td><p>string.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ramp</span></code></p></td>
+<td><p>float.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">dataOnly</span></code></p></td>
+<td><p>boolean.</p></td>
+</tr>
+</tbody>
+</table>
+</details><details><summary>Inherited from <a class="reference internal" href="#pyo.Map" title="pyo.lib._maps.Map"><code class="xref py py-class docutils literal notranslate"><span class="pre">Map</span></code></a></summary><table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">min</span></code></p></td>
+<td><p>int or float.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">max</span></code></p></td>
+<td><p>int or float.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">scale</span></code></p></td>
+<td><p>string.</p></td>
+</tr>
+</tbody>
+</table>
+</details></div>
+<div class="autoclasstoc docutils container">
+<p class="rubric">Public Methods:</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>([init])</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<details><summary>Inherited from <a class="reference internal" href="#pyo.SLMap" title="pyo.lib._maps.SLMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">SLMap</span></code></a></summary><table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>(min, max, scale, name, init[, res, ...])</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</details><details><summary>Inherited from <a class="reference internal" href="#pyo.Map" title="pyo.lib._maps.Map"><code class="xref py py-class docutils literal notranslate"><span class="pre">Map</span></code></a></summary><table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>(min, max, scale)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get</span></code>(x)</p></td>
+<td><p>Takes <cite>x</cite> between 0 and 1 and returns scaled value.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set</span></code>(x)</p></td>
+<td><p>Takes <cite>x</cite> in the real range and returns value unscaled (between 0 and 1).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMin</span></code>(x)</p></td>
+<td><p>Replace the <cite>min</cite> attribute.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMax</span></code>(x)</p></td>
+<td><p>Replace the <cite>max</cite> attribute.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setScale</span></code>(x)</p></td>
+<td><p>Replace the <cite>scale</cite> attribute.</p></td>
+</tr>
+</tbody>
+</table>
+</details></div>
+</dd></dl>
+</section>
+<hr class="docutils"/>
+<section id="slmapphase">
+<h2><em>SLMapPhase</em><a class="headerlink" href="#slmapphase" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyo.SLMapPhase">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SLMapPhase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">init</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyo/lib/_maps.html#SLMapPhase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyo.SLMapPhase" title="Link to this definition">¶</a></dt>
+<dd><p>SLMap with normalized values for a ‘phase’ slider.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parent<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyo.SLMap" title="pyo.SLMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">SLMap</span></code></a></p>
+</dd>
+<dt class="field-even">Args<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>init: int or float, optional</dt><dd><p>Initial value. Specified in the real range, not between 0 and 1.
+Defaults to 0.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>SLMapPhase values are:</p>
+<ul class="simple">
+<li><p>min = 0.0</p></li>
+<li><p>max = 1.0</p></li>
+<li><p>scale = ‘lin’</p></li>
+<li><p>name = ‘phase’</p></li>
+<li><p>res = ‘float’</p></li>
+<li><p>ramp = 0.025</p></li>
+</ul>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#pyo.SLMap" title="pyo.SLMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">SLMap</span></code></a>, <a class="reference internal" href="#pyo.Map" title="pyo.Map"><code class="xref py py-class docutils literal notranslate"><span class="pre">Map</span></code></a></p>
+</div>
+<div class="autoclasstoc docutils container">
+<p class="rubric">Public Data Attributes:</p>
+<details><summary>Inherited from <a class="reference internal" href="#pyo.SLMap" title="pyo.lib._maps.SLMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">SLMap</span></code></a></summary><table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></p></td>
+<td><p>string.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">init</span></code></p></td>
+<td><p>float.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">res</span></code></p></td>
+<td><p>string.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ramp</span></code></p></td>
+<td><p>float.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">dataOnly</span></code></p></td>
+<td><p>boolean.</p></td>
+</tr>
+</tbody>
+</table>
+</details><details><summary>Inherited from <a class="reference internal" href="#pyo.Map" title="pyo.lib._maps.Map"><code class="xref py py-class docutils literal notranslate"><span class="pre">Map</span></code></a></summary><table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">min</span></code></p></td>
+<td><p>int or float.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">max</span></code></p></td>
+<td><p>int or float.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">scale</span></code></p></td>
+<td><p>string.</p></td>
+</tr>
+</tbody>
+</table>
+</details></div>
+<div class="autoclasstoc docutils container">
+<p class="rubric">Public Methods:</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>([init])</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<details><summary>Inherited from <a class="reference internal" href="#pyo.SLMap" title="pyo.lib._maps.SLMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">SLMap</span></code></a></summary><table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>(min, max, scale, name, init[, res, ...])</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</details><details><summary>Inherited from <a class="reference internal" href="#pyo.Map" title="pyo.lib._maps.Map"><code class="xref py py-class docutils literal notranslate"><span class="pre">Map</span></code></a></summary><table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>(min, max, scale)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get</span></code>(x)</p></td>
+<td><p>Takes <cite>x</cite> between 0 and 1 and returns scaled value.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set</span></code>(x)</p></td>
+<td><p>Takes <cite>x</cite> in the real range and returns value unscaled (between 0 and 1).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMin</span></code>(x)</p></td>
+<td><p>Replace the <cite>min</cite> attribute.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMax</span></code>(x)</p></td>
+<td><p>Replace the <cite>max</cite> attribute.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setScale</span></code>(x)</p></td>
+<td><p>Replace the <cite>scale</cite> attribute.</p></td>
+</tr>
+</tbody>
+</table>
+</details></div>
+</dd></dl>
+</section>
+<hr class="docutils"/>
+<section id="slmapq">
+<h2><em>SLMapQ</em><a class="headerlink" href="#slmapq" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyo.SLMapQ">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SLMapQ</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">init</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyo/lib/_maps.html#SLMapQ"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyo.SLMapQ" title="Link to this definition">¶</a></dt>
+<dd><p>SLMap with normalized values for a ‘q’ slider.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parent<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyo.SLMap" title="pyo.SLMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">SLMap</span></code></a></p>
+</dd>
+<dt class="field-even">Args<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>init: int or float, optional</dt><dd><p>Initial value. Specified in the real range, not between 0 and 1.
+Defaults to 1.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>SLMapQ values are:</p>
+<ul class="simple">
+<li><p>min = 0.1</p></li>
+<li><p>max = 100.0</p></li>
+<li><p>scale = ‘log’</p></li>
+<li><p>name = ‘q’</p></li>
+<li><p>res = ‘float’</p></li>
+<li><p>ramp = 0.025</p></li>
+</ul>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#pyo.SLMap" title="pyo.SLMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">SLMap</span></code></a>, <a class="reference internal" href="#pyo.Map" title="pyo.Map"><code class="xref py py-class docutils literal notranslate"><span class="pre">Map</span></code></a></p>
+</div>
+<div class="autoclasstoc docutils container">
+<p class="rubric">Public Data Attributes:</p>
+<details><summary>Inherited from <a class="reference internal" href="#pyo.SLMap" title="pyo.lib._maps.SLMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">SLMap</span></code></a></summary><table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></p></td>
+<td><p>string.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">init</span></code></p></td>
+<td><p>float.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">res</span></code></p></td>
+<td><p>string.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ramp</span></code></p></td>
+<td><p>float.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">dataOnly</span></code></p></td>
+<td><p>boolean.</p></td>
+</tr>
+</tbody>
+</table>
+</details><details><summary>Inherited from <a class="reference internal" href="#pyo.Map" title="pyo.lib._maps.Map"><code class="xref py py-class docutils literal notranslate"><span class="pre">Map</span></code></a></summary><table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">min</span></code></p></td>
+<td><p>int or float.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">max</span></code></p></td>
+<td><p>int or float.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">scale</span></code></p></td>
+<td><p>string.</p></td>
+</tr>
+</tbody>
+</table>
+</details></div>
+<div class="autoclasstoc docutils container">
+<p class="rubric">Public Methods:</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>([init])</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<details><summary>Inherited from <a class="reference internal" href="#pyo.SLMap" title="pyo.lib._maps.SLMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">SLMap</span></code></a></summary><table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>(min, max, scale, name, init[, res, ...])</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</details><details><summary>Inherited from <a class="reference internal" href="#pyo.Map" title="pyo.lib._maps.Map"><code class="xref py py-class docutils literal notranslate"><span class="pre">Map</span></code></a></summary><table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>(min, max, scale)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get</span></code>(x)</p></td>
+<td><p>Takes <cite>x</cite> between 0 and 1 and returns scaled value.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set</span></code>(x)</p></td>
+<td><p>Takes <cite>x</cite> in the real range and returns value unscaled (between 0 and 1).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMin</span></code>(x)</p></td>
+<td><p>Replace the <cite>min</cite> attribute.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMax</span></code>(x)</p></td>
+<td><p>Replace the <cite>max</cite> attribute.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setScale</span></code>(x)</p></td>
+<td><p>Replace the <cite>scale</cite> attribute.</p></td>
+</tr>
+</tbody>
+</table>
+</details></div>
+</dd></dl>
+</section>
+<hr class="docutils"/>
+<section id="slmapdur">
+<h2><em>SLMapDur</em><a class="headerlink" href="#slmapdur" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyo.SLMapDur">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SLMapDur</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">init</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyo/lib/_maps.html#SLMapDur"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyo.SLMapDur" title="Link to this definition">¶</a></dt>
+<dd><p>SLMap with normalized values for a ‘dur’ slider.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parent<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyo.SLMap" title="pyo.SLMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">SLMap</span></code></a></p>
+</dd>
+<dt class="field-even">Args<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>init: int or float, optional</dt><dd><p>Initial value. Specified in the real range, not between 0 and 1.
+Defaults to 1.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>SLMapDur values are:</p>
+<ul class="simple">
+<li><p>min = 0.</p></li>
+<li><p>max = 60.0</p></li>
+<li><p>scale = ‘lin’</p></li>
+<li><p>name = ‘dur’</p></li>
+<li><p>res = ‘float’</p></li>
+<li><p>ramp = 0.025</p></li>
+</ul>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#pyo.SLMap" title="pyo.SLMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">SLMap</span></code></a>, <a class="reference internal" href="#pyo.Map" title="pyo.Map"><code class="xref py py-class docutils literal notranslate"><span class="pre">Map</span></code></a></p>
+</div>
+<div class="autoclasstoc docutils container">
+<p class="rubric">Public Data Attributes:</p>
+<details><summary>Inherited from <a class="reference internal" href="#pyo.SLMap" title="pyo.lib._maps.SLMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">SLMap</span></code></a></summary><table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></p></td>
+<td><p>string.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">init</span></code></p></td>
+<td><p>float.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">res</span></code></p></td>
+<td><p>string.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ramp</span></code></p></td>
+<td><p>float.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">dataOnly</span></code></p></td>
+<td><p>boolean.</p></td>
+</tr>
+</tbody>
+</table>
+</details><details><summary>Inherited from <a class="reference internal" href="#pyo.Map" title="pyo.lib._maps.Map"><code class="xref py py-class docutils literal notranslate"><span class="pre">Map</span></code></a></summary><table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">min</span></code></p></td>
+<td><p>int or float.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">max</span></code></p></td>
+<td><p>int or float.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">scale</span></code></p></td>
+<td><p>string.</p></td>
+</tr>
+</tbody>
+</table>
+</details></div>
+<div class="autoclasstoc docutils container">
+<p class="rubric">Public Methods:</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>([init])</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<details><summary>Inherited from <a class="reference internal" href="#pyo.SLMap" title="pyo.lib._maps.SLMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">SLMap</span></code></a></summary><table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>(min, max, scale, name, init[, res, ...])</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</details><details><summary>Inherited from <a class="reference internal" href="#pyo.Map" title="pyo.lib._maps.Map"><code class="xref py py-class docutils literal notranslate"><span class="pre">Map</span></code></a></summary><table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>(min, max, scale)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get</span></code>(x)</p></td>
+<td><p>Takes <cite>x</cite> between 0 and 1 and returns scaled value.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set</span></code>(x)</p></td>
+<td><p>Takes <cite>x</cite> in the real range and returns value unscaled (between 0 and 1).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMin</span></code>(x)</p></td>
+<td><p>Replace the <cite>min</cite> attribute.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMax</span></code>(x)</p></td>
+<td><p>Replace the <cite>max</cite> attribute.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setScale</span></code>(x)</p></td>
+<td><p>Replace the <cite>scale</cite> attribute.</p></td>
+</tr>
+</tbody>
+</table>
+</details></div>
+</dd></dl>
+</section>
+<hr class="docutils"/>
+<section id="slmappan">
+<h2><em>SLMapPan</em><a class="headerlink" href="#slmappan" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyo.SLMapPan">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SLMapPan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">init</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyo/lib/_maps.html#SLMapPan"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyo.SLMapPan" title="Link to this definition">¶</a></dt>
+<dd><p>SLMap with normalized values for a ‘pan’ slider.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parent<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyo.SLMap" title="pyo.SLMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">SLMap</span></code></a></p>
+</dd>
+<dt class="field-even">Args<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>init: int or float, optional</dt><dd><p>Initial value. Specified in the real range, not between 0 and 1.
+Defaults to 0.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>SLMapPhase values are:</p>
+<ul class="simple">
+<li><p>min = 0.0</p></li>
+<li><p>max = 1.0</p></li>
+<li><p>scale = ‘lin’</p></li>
+<li><p>name = ‘pan’</p></li>
+<li><p>res = ‘float’</p></li>
+<li><p>ramp = 0.025</p></li>
+</ul>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#pyo.SLMap" title="pyo.SLMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">SLMap</span></code></a>, <a class="reference internal" href="#pyo.Map" title="pyo.Map"><code class="xref py py-class docutils literal notranslate"><span class="pre">Map</span></code></a></p>
+</div>
+<div class="autoclasstoc docutils container">
+<p class="rubric">Public Data Attributes:</p>
+<details><summary>Inherited from <a class="reference internal" href="#pyo.SLMap" title="pyo.lib._maps.SLMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">SLMap</span></code></a></summary><table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></p></td>
+<td><p>string.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">init</span></code></p></td>
+<td><p>float.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">res</span></code></p></td>
+<td><p>string.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ramp</span></code></p></td>
+<td><p>float.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">dataOnly</span></code></p></td>
+<td><p>boolean.</p></td>
+</tr>
+</tbody>
+</table>
+</details><details><summary>Inherited from <a class="reference internal" href="#pyo.Map" title="pyo.lib._maps.Map"><code class="xref py py-class docutils literal notranslate"><span class="pre">Map</span></code></a></summary><table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">min</span></code></p></td>
+<td><p>int or float.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">max</span></code></p></td>
+<td><p>int or float.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">scale</span></code></p></td>
+<td><p>string.</p></td>
+</tr>
+</tbody>
+</table>
+</details></div>
+<div class="autoclasstoc docutils container">
+<p class="rubric">Public Methods:</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>([init])</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<details><summary>Inherited from <a class="reference internal" href="#pyo.SLMap" title="pyo.lib._maps.SLMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">SLMap</span></code></a></summary><table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>(min, max, scale, name, init[, res, ...])</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</details><details><summary>Inherited from <a class="reference internal" href="#pyo.Map" title="pyo.lib._maps.Map"><code class="xref py py-class docutils literal notranslate"><span class="pre">Map</span></code></a></summary><table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>(min, max, scale)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get</span></code>(x)</p></td>
+<td><p>Takes <cite>x</cite> between 0 and 1 and returns scaled value.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set</span></code>(x)</p></td>
+<td><p>Takes <cite>x</cite> in the real range and returns value unscaled (between 0 and 1).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMin</span></code>(x)</p></td>
+<td><p>Replace the <cite>min</cite> attribute.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMax</span></code>(x)</p></td>
+<td><p>Replace the <cite>max</cite> attribute.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setScale</span></code>(x)</p></td>
+<td><p>Replace the <cite>scale</cite> attribute.</p></td>
+</tr>
+</tbody>
+</table>
+</details></div>
+<hr class="docutils"/>
+</dd></dl>
+</section>
+</section>
+<div class="clearer"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+</div>
+<div class="footer-wrapper">
+<div class="footer">
+<div class="left">
+<div aria-label="Related" role="navigation">
+<a href="matrices.html" title="Matrices">previous</a> |
+            <a href="wxgui.html" title="Additional WxPython widgets">next</a> |
+            <a href="../../genindex.html" title="General Index">index</a>
+</div>
+<div aria-label="source link" role="note">
+</div>
+</div>
+<div class="right">
+<div class="footer" role="contentinfo">
+    © Copyright 2025, Olivier Bélanger.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+</div>
+<div class="clearer"></div>
+</div>
+</div>
+</body>
+</html>

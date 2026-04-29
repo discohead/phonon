@@ -3,10 +3,10 @@ threshold_study_1.py — first piece in the framework.
 
 A seven-minute study in two mid-voices passing through coupling.
 The piece moves along a single supra trajectory `order` from chaos
-toward synchronicity. Two structural events reshape topology as it
-ascends; one captured motif returns near the end, distorted by the
-local order value. Anchor (low) persists; secondary (mid) is
-introduced by event; air (high) drifts on a brown random walk
+toward synchronicity. One structural event reshapes coupling kind as
+it ascends; one captured motif returns near the end, distorted by
+the local order value. Anchor (low) persists; secondary (mid) is
+introduced by entrance; air (high) drifts on a brown random walk
 biased by order.
 
 Render modes:
@@ -22,7 +22,7 @@ from phonon import (
     Trajectory, Variance, Crossing, Scale,
     Binding, Mode, Reference,
     Gesture, Midi,
-    Event, IntroduceVoice, RewireCoupling,
+    Event, RewireCoupling,
     Persistence, Recurrence, Distortion,
     RenderMode, vdp, pink_noise, lorenz, brown, linear, sigmoid,
 )
@@ -34,34 +34,37 @@ SEED = 1729
 # ── Voices ────────────────────────────────────────────────────────
 
 anchor = Voice(
+    name="anchor",
     role=Role.ANCHOR_LOW,
     band=Band(20, 120),
-    source=vdp(rate=2.13),  # van der Pol relaxation oscillator, ~128 BPM
+    source=vdp(rate=2.13, mu=2.0),  # van der Pol relaxation oscillator, classical mu
 )
 
 air = Voice(
+    name="air",
     role=Role.AIR_HIGH,
     band=Band(4000, 18000),
-    source=pink_noise(),
+    source=pink_noise(),  # seeded surrogate; deterministic
 )
 
 primary = Voice(
+    name="primary",
     role=Role.PRIMARY_MID,
     band=Band(200, 2000),
-    source=lorenz(component="x", rho=28),
+    source=lorenz(component="x", sigma=10, rho=28, beta=8/3),  # classical Lorenz
 )
 
 secondary = Voice(
+    name="secondary",
     role=Role.SECONDARY_MID,
     band=Band(300, 3000),
-    source=lorenz(component="y", rho=15.5),
+    source=lorenz(component="y", sigma=10, rho=15.5, beta=8/3),
     entrance=Crossing(Reference("order"), value=0.30, rising=True),
 )
 
 
 # ── Trajectories ──────────────────────────────────────────────────
 
-# Central control variable: 0 = chaos / decoupled, 1 = order / phase-locked.
 order = Trajectory(
     name="order",
     scale=Scale.SUPRA,
@@ -69,8 +72,6 @@ order = Trajectory(
     variance=Variance(0.04),
 )
 
-# Coupling strength at macro scale, reshaped by the supra trajectory.
-# As `order` rises, the macro arc's curvature itself sharpens.
 coupling_strength = Trajectory(
     name="coupling_strength",
     scale=Scale.MACRO,
@@ -79,8 +80,6 @@ coupling_strength = Trajectory(
     variance=Variance(0.06),
 )
 
-# Air-band intensity at meso scale; brownian walk whose mean drifts
-# toward the current value of `order` (less random as order rises).
 air_intensity = Trajectory(
     name="air_intensity",
     scale=Scale.MESO,
@@ -93,32 +92,27 @@ air_intensity = Trajectory(
 # ── Couplings ─────────────────────────────────────────────────────
 
 mid_pair = Coupling(
+    name="mid_pair",
     a=primary,
     b=secondary,
     strength=Reference("coupling_strength"),
-    kind=CouplingKind.PHASE,  # rewired to AMPLITUDE by event below
+    kind=CouplingKind.PHASE,
 )
 
 
 # ── Bindings ──────────────────────────────────────────────────────
 
 bindings = [
-    # ANCHOR_LOW and PRIMARY_MID expose `event_rate` per role contract.
     Binding(Reference("order"), anchor.event_rate,  mode=Mode.MODULATE),
     Binding(Reference("order"), primary.event_rate, mode=Mode.MODULATE),
-    # AIR_HIGH exposes `intensity` per role contract.
     Binding(Reference("air_intensity"), air.intensity, mode=Mode.ABSOLUTE),
 ]
 
 
 # ── Rhetoric ──────────────────────────────────────────────────────
 
-# Anchor persists across all structural events; nothing dissolves it.
 anchor_persistence = Persistence(voice=anchor)
 
-# Capture a meso-scale fragment of `primary` from 1:20–1:50.
-# After coupling has shifted, the fragment returns, distorted by
-# whatever value `order` holds at the moment of return.
 echoed_motif = Recurrence(
     capture=primary,
     window_seconds=(80, 110),
@@ -131,17 +125,18 @@ echoed_motif = Recurrence(
 )
 
 
-# ── Structural Events (closed, typed set) ─────────────────────────
+# ── Structural events (closed, typed set) ─────────────────────────
 
 events = [
     Event(
+        name="rewire_to_amplitude",
         when=Crossing(Reference("order"), value=0.55, rising=True),
         action=RewireCoupling(mid_pair, kind=CouplingKind.AMPLITUDE),
     ),
 ]
 
 
-# ── Gestures (live input; defaults flow under autopilot) ──────────
+# ── Gestures ──────────────────────────────────────────────────────
 
 warp = Gesture(
     name="warp",
@@ -167,8 +162,8 @@ tighten = Gesture(
 score = Score(
     title="Threshold (study no. 1)",
     seed=SEED,
-    duration_seconds=420,  # 7:00
-    corpus=None,  # synthesis-only; no Sample() references
+    duration_seconds=420,
+    corpus=None,
     voices=[anchor, air, primary, secondary],
     couplings=[mid_pair],
     trajectories=[order, coupling_strength, air_intensity],
@@ -182,6 +177,9 @@ score = Score(
         Scale.MESO:  0.10,
         Scale.MICRO: 0.20,
     },
+    sample_rate=48000,
+    buffer_size=256,
+    control_hz=200,
 )
 
 

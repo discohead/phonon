@@ -1,0 +1,52 @@
+=== STEP 1 ===
+--- Install msys2 64-bit and update it
+
+=== STEP 2 ===
+--- Install msys2 packages (pacman -S package_name)
+
+* setup.py file assumes that msys2 is installed on the default location. If
+not, you'll have to change the paths in include_dirs and library_dirs to
+reflect your installation.
+
+mingw-w64-x86_64-toolchain
+make
+autoconf
+automake
+libtool
+subversion
+
+=== STEP 3 ===
+Add the MinGW and MSYS2 bin dirs to your Windows PATH:
+
+Open System Properties, click Environment Variables,
+Then edit the system Path variable. Add these two paths in this order:
+
+C:\msys64\mingw64\bin  
+C:\msys64\usr\bin  
+
+=== STEP 4 ===
+--- Install Git
+https://git-scm.com/download/win
+
+=== STEP 5 ===
+--- Install Visual Studio Community 2022
+
+=== STEP 6 ===
+--- Clone vcpkg repo and bootstrap it.
+
+=== STEP 7 ===
+From vcpkg repo, install portaudio, portmidi, libsndfile, liblo and pthreads
+
+=== STEP 8 ===
+--- Install Python 3.9+ 64-bit.
+--- Add PythonXX and PythonXX\Scripts paths to environment variables.
+ 
+=== STEP 9 ===
+Update python modules (for all python versions)
+
+py -3.x -m pip install -U pip build numpy pytest wxPython 
+
+=== STEP 10 ===
+--- Download pyo sources from git and build it with (in a standard command prompt):
+
+py -X.X -m build --config-setting="--build-option=--use-double"

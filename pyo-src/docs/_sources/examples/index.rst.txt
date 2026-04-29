@@ -1,0 +1,27 @@
+
+Examples
+================
+
+.. toctree::
+   :maxdepth: 1
+
+   First steps <x01-intro/index>
+   Parameter control <x02-controls/index>
+   Synthesis generators <x03-generators/index>
+   Playing with soundfiles <x04-soundfiles/index>
+   Amplitude envelopes <x05-envelopes/index>
+   Filtering <x06-filters/index>
+   Creating sound effects <x07-effects/index>
+   Dynamic range of audio signals <x08-dynamics/index>
+   Calling python functions from audio objects <x09-callbacks/index>
+   Using tables <x10-tables/index>
+   Processing in the spectral domain <x14-spectral/index>
+   Using 2D tables (matrix) <x15-matrix/index>
+   How to use MIDI with pyo <x16-midi/index>
+   How to use OSC with pyo <x17-osc/index>
+   Multirate audio processing <x19-multirate/index>
+   Multicore audio programming <x20-multicore/index>
+   Utilities <x21-utilities/index>
+   Events framework <x22-events/index>
+   Evaluating prefix expression <x23-expression/index>
+

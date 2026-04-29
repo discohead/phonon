@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Functions &#8212; Pyo 1.0.6 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/agogo.css?v=227e5aac" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-codeautolink.css?v=b2176991" />
+    <link rel="stylesheet" type="text/css" href="../../_static/autoclasstoc.css?v=08871587" />
+    <script src="../../_static/documentation_options.js?v=e2a723ec"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="icon" href="../../_static/E-PyoIcon.ico"/>
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Audio Setup" href="audio.html" />
+    <link rel="prev" title="Constants" href="../constants.html" /> 
+  </head><body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+        <div class="headertitle"><a
+          href="../../index.html">Pyo 1.0.6 documentation</a></div>
+        <div class="rel" role="navigation" aria-label="Related">
+          <a href="../constants.html" title="Constants"
+             accesskey="P">previous</a> |
+          <a href="audio.html" title="Audio Setup"
+             accesskey="N">next</a> |
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="sidebar">
+          
+          <h3>Table of Contents</h3>
+          <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About pyo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../download.html">Installing pyo with pip</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../compiling.html">Compiling pyo from sources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../structure.html">Structure of the library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../gettingstarted.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../winaudioinspect.html">Configuring the audio output (Windows)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../perftips.html">Improve performance of pyo programs</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../constants.html">Constants</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../alphabetical.html">Alphabetical class reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classes/index.html">Classes by category</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/index.html">Advanced tutorials</a></li>
+</ul>
+
+          <search role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="../../search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+            </form>
+          </search>
+
+        </div>
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="functions">
+<h1>Functions<a class="headerlink" href="#functions" title="Link to this heading">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Audio Setup</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="audio.html#functions-in-this-category">Functions in this category</a></li>
+<li class="toctree-l2"><a class="reference internal" href="audio.html#pa-get-version"><em>pa_get_version</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="audio.html#pa-get-version-text"><em>pa_get_version_text</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="audio.html#pa-count-host-apis"><em>pa_count_host_apis</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="audio.html#pa-list-host-apis"><em>pa_list_host_apis</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="audio.html#pa-get-default-host-api"><em>pa_get_default_host_api</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="audio.html#pa-get-default-devices-from-host"><em>pa_get_default_devices_from_host</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="audio.html#pa-count-devices"><em>pa_count_devices</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="audio.html#pa-list-devices"><em>pa_list_devices</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="audio.html#pa-get-devices-infos"><em>pa_get_devices_infos</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="audio.html#pa-get-input-devices"><em>pa_get_input_devices</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="audio.html#pa-get-output-devices"><em>pa_get_output_devices</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="audio.html#pa-get-default-input"><em>pa_get_default_input</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="audio.html#pa-get-default-output"><em>pa_get_default_output</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="audio.html#pa-get-input-max-channels"><em>pa_get_input_max_channels</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="audio.html#pa-get-output-max-channels"><em>pa_get_output_max_channels</em></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="midi.html">Midi Setup</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="midi.html#functions-in-this-category">Functions in this category</a></li>
+<li class="toctree-l2"><a class="reference internal" href="midi.html#pm-get-default-output"><em>pm_get_default_output</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="midi.html#pm-get-default-input"><em>pm_get_default_input</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="midi.html#pm-get-output-devices"><em>pm_get_output_devices</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="midi.html#pm-get-input-devices"><em>pm_get_input_devices</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="midi.html#pm-list-devices"><em>pm_list_devices</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="midi.html#pm-count-devices"><em>pm_count_devices</em></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sndfile.html">Soundfile</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sndfile.html#functions-in-this-category">Functions in this category</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sndfile.html#sndinfo"><em>sndinfo</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="sndfile.html#savefile"><em>savefile</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="sndfile.html#savefilefromtable"><em>savefileFromTable</em></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sampling.html">Resampling</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sampling.html#functions-in-this-category">Functions in this category</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sampling.html#upsamp"><em>upsamp</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="sampling.html#downsamp"><em>downsamp</em></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="conv.html">Conversions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="conv.html#functions-in-this-category">Functions in this category</a></li>
+<li class="toctree-l2"><a class="reference internal" href="conv.html#miditohz"><em>midiToHz</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="conv.html#miditotranspo"><em>midiToTranspo</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="conv.html#sampstosec"><em>sampsToSec</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="conv.html#sectosamps"><em>secToSamps</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="conv.html#beattodur"><em>beatToDur</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="conv.html#lintocoscurve"><em>linToCosCurve</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="conv.html#rescale"><em>rescale</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="conv.html#floatmap"><em>floatmap</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="conv.html#distancetosegment"><em>distanceToSegment</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="conv.html#reducepoints"><em>reducePoints</em></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="server.html">Server Queries</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="server.html#functions-in-this-category">Functions in this category</a></li>
+<li class="toctree-l2"><a class="reference internal" href="server.html#servercreated"><em>serverCreated</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="server.html#serverbooted"><em>serverBooted</em></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="util.html">Utilities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="util.html#functions-in-this-category">Functions in this category</a></li>
+<li class="toctree-l2"><a class="reference internal" href="util.html#example"><em>example</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="util.html#class-args"><em>class_args</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="util.html#getversion"><em>getVersion</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="util.html#getprecision"><em>getPrecision</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="util.html#getpyokeywords"><em>getPyoKeywords</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="util.html#getpyoexamples"><em>getPyoExamples</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="util.html#withportaudio"><em>withPortaudio</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="util.html#withportmidi"><em>withPortmidi</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="util.html#withjack"><em>withJack</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="util.html#withcoreaudio"><em>withCoreaudio</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="util.html#withosc"><em>withOSC</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="util.html#convertstringtosysencoding"><em>convertStringToSysEncoding</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="util.html#convertargstolists"><em>convertArgsToLists</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="util.html#wrap"><em>wrap</em></a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <div role="navigation" aria-label="Related">
+            <a href="../constants.html" title="Constants"
+              >previous</a> |
+            <a href="audio.html" title="Audio Setup"
+              >next</a> |
+            <a href="../../genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+          </div>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, Olivier Bélanger.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>
