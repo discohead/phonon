@@ -19,15 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
----
-
-Vendored dependency: pyo-src/ contains a copy of Pyo (https://github.com/belangeo/pyo)
-licensed under LGPLv3+. See pyo-src/LICENSE for its terms. The MIT license above
-applies to Phonon's own source only.
-
-Distributing built artifacts that bundle compiled Pyo binaries (e.g. wheels with
-pyo._pyo / pyo._pyo64 bundled in) triggers Pyo's LGPLv3+ relink obligation: the
-recipient must be able to relink the artifact against a modified Pyo. Distributing
-Phonon as source-only (pip install from git, conda recipe with separate Pyo build)
-does not trigger the relink obligation since Pyo is built locally from pyo-src/.
