@@ -70,3 +70,18 @@ brew install portaudio portmidi libsndfile liblo libogg libvorbis flac opus mpg1
 ```
 
 When Phonon's CLI exists (Phase 4), the user-facing commands will be `phonon render`, `phonon describe`, `phonon validate`, `phonon package`, `phonon repro`, `phonon midi-list`, `phonon osc-listen`, `phonon hash`. None of these are implemented yet.
+
+<!-- SPECKIT START -->
+## Active Spec Kit work
+
+- **Constitution**: `.specify/memory/constitution.md` v1.0.0 (ratified 2026-04-28)
+- **Active feature**: `specs/001-phase-0-skeleton/` — Phase 0 Skeleton (validator, describe, test infra, CI)
+  - Spec: `specs/001-phase-0-skeleton/spec.md`
+  - Plan: `specs/001-phase-0-skeleton/plan.md`
+  - Research: `specs/001-phase-0-skeleton/research.md`
+  - Data model: `specs/001-phase-0-skeleton/data-model.md`
+  - Contracts: `specs/001-phase-0-skeleton/contracts/{score-api,seedseq-api,manual-server-fixture}.md`
+  - Quickstart: `specs/001-phase-0-skeleton/quickstart.md`
+
+When working on Phase 0 implementation, read `plan.md` first for the structure decision and then the specific contract for the surface you're touching.
+<!-- SPECKIT END -->
