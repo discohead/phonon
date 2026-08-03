@@ -183,17 +183,21 @@ elif sys.platform == "darwin":
     }
 
     mac_arch = arch = platform.machine()
+    # Resolve deps through Homebrew's version-independent opt symlinks
+    # (<prefix>/opt/<pkg> -> Cellar/<pkg>/<version>) so builds survive formula
+    # version bumps. The versions in pkgs_3rdpary are informational only (the
+    # wheel release scripts under scripts/ still reference them).
     if mac_arch == "arm64":
-        brew_default_root = "/opt/homebrew/Cellar"
+        brew_default_root = "/opt/homebrew/opt"
     else:
-        brew_default_root = "/usr/local/Cellar"
+        brew_default_root = "/usr/local/opt"
     brew_packages_root = os.environ.get("BREW_PACKAGES_ROOT", brew_default_root)
 
     include_dirs = ["include"]
     library_dirs = []
 
     for pkg, req in pkgs_3rdpary.items():
-        pkg_dir = os.path.join(brew_packages_root, pkg, req[2])
+        pkg_dir = os.path.join(brew_packages_root, pkg)
         if req[0]:
             include_dirs.append(os.path.join(pkg_dir, "include"))
         if req[1]:
