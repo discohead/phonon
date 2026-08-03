@@ -19,10 +19,11 @@ jobs:
         # and deprecated macos-14 by mid-2026, so as of 2026-08 this runs on
         # macos-26 (arm64 Tahoe — matches the primary dev environment) and
         # macos-26-intel (x86_64).
-        os: [macos-26, macos-26-intel, ubuntu-latest, windows-latest]
-    # Windows needs headroom for a cold vcpkg build of the ten native deps
-    # (~30-45 min uncached; fast once the x-gha binary cache is warm).
-    timeout-minutes: ${{ matrix.os == 'windows-latest' && 60 || 15 }}
+        # Windows was dropped 2026-08-02 by maintainer decision (no Windows
+        # machine or target in this project); FR-039 / constitution
+        # § Development Workflow amendment pending to match.
+        os: [macos-26, macos-26-intel, ubuntu-latest]
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
 
@@ -42,45 +43,6 @@ jobs:
             portaudio19-dev libportmidi-dev libsndfile1-dev liblo-dev \
             libogg-dev libvorbis-dev libflac-dev libopus-dev \
             libmpg123-dev libmp3lame-dev
-
-      - name: Set up MSYS2 (Windows)
-        if: runner.os == 'Windows'
-        uses: msys2/setup-msys2@v2
-        with:
-          msystem: MINGW64
-          install: >-
-            mingw-w64-x86_64-toolchain
-            make
-            autoconf
-            automake
-            libtool
-
-      - name: Set up vcpkg (Windows)
-        if: runner.os == 'Windows'
-        uses: lukka/run-vcpkg@v11
-        with:
-          # vcpkg release 2026.07.29 — keep this pin roughly current with the
-          # windows-latest toolchain (a stale baseline's scripts break against
-          # newer MSVC/CMake/ninja on the runner image).
-          vcpkgGitCommitId: 9e593bb18ea69cc5095e012465dcd675a822ed0d
-
-      # run-vcpkg configures the x-gha binary cache, but plain `run:` steps
-      # don't get ACTIONS_RUNTIME_TOKEN/ACTIONS_CACHE_URL; this exposes them
-      # so the manual vcpkg install below can read/write the cache.
-      - name: Expose Actions runtime for vcpkg binary cache (Windows)
-        if: runner.os == 'Windows'
-        uses: crazy-max/ghaction-github-runtime@v3
-
-      - name: Install Pyo native deps via vcpkg (Windows)
-        if: runner.os == 'Windows'
-        shell: bash
-        run: |
-          "$VCPKG_ROOT/vcpkg" install \
-            portaudio portmidi libsndfile liblo \
-            libogg libvorbis libflac opus mpg123 mp3lame \
-            --triplet x64-windows
-          echo "VCPKG_ROOT=$VCPKG_ROOT" >> "$GITHUB_ENV"
-          echo "MSYS2_MINGW_ROOT=C:/msys64/mingw64" >> "$GITHUB_ENV"
 
       - name: Upgrade pip
         run: python -m pip install --upgrade pip
@@ -109,7 +71,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-26, macos-26-intel, ubuntu-latest, windows-latest]
+        os: [macos-26, macos-26-intel, ubuntu-latest]
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
