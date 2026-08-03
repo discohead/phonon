@@ -57,7 +57,10 @@ jobs:
         if: runner.os == 'Windows'
         uses: lukka/run-vcpkg@v11
         with:
-          vcpkgGitCommitId: c82f74667287d3dc386bce81e44964370c91a289
+          # vcpkg release 2026.07.29 — keep this pin roughly current with the
+          # windows-latest toolchain (a stale baseline's scripts break against
+          # newer MSVC/CMake/ninja on the runner image).
+          vcpkgGitCommitId: 9e593bb18ea69cc5095e012465dcd675a822ed0d
 
       # run-vcpkg configures the x-gha binary cache, but plain `run:` steps
       # don't get ACTIONS_RUNTIME_TOKEN/ACTIONS_CACHE_URL; this exposes them
