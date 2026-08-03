@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project status
 
-Phonon is a Python composition framework for experimental electronic music — continuous parametric processes whose discrete consequences emerge from threshold crossings. The project is **pre-implementation as of 2026-04-28**: the design specification is complete and the audio backend (Pyo) is vendored, but no `phonon/` Python package exists yet. The next milestones are authoring the project constitution and producing the Phase 0 implementation spec.
+Phonon is a Python composition framework for experimental electronic music — continuous parametric processes whose discrete consequences emerge from threshold crossings. **Phase 0 complete (skeleton + validator + `describe` + test substrate + CI) as of 2026-05-01**: the `phonon` package installs editably, an empty `Score` validates and `describe()`s itself, the seeded RNG hierarchy `derive(seed, kind, name)` produces bit-identical output across runs, the `manual_server` pytest fixture and Pyo-Appendix-C audit are wired up, and the four-platform GitHub Actions matrix builds vendored Pyo from source. The next milestone is Phase 1 — the process primitive layer over `pyo.Thresh` and `pyo.SampHold`, plus seeded surrogates for noise, plus the offline scheduler driving `Server.process()` per block.
 
 The design specification at `context/phonon-v1.md` is the authoritative source for type names, constructor signatures, semantics, and aesthetic refusals. Read it before proposing any framework code.
 
