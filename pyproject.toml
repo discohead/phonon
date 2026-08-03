@@ -1,0 +1,28 @@
+[project]
+name = "phonon"
+version = "0.1.0"
+description = "Composition framework for experimental electronic music: continuous parametric processes whose discrete consequences emerge from threshold crossings."
+requires-python = ">=3.9"
+license = {file = "LICENSE"}
+authors = [{name = "Jared McFarland"}]
+dependencies = [
+    "numpy>=1.24,<3",
+    "PyYAML>=6.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8",
+    "hypothesis>=6",
+]
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["phonon*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+norecursedirs = ["pyo-src", ".git", ".venv", "build", "dist"]
