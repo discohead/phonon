@@ -1,0 +1,139 @@
+name: CI
+
+# push is scoped to main so PR branches run the matrix once (via
+# pull_request) instead of twice per push.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    name: test (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        # FR-039 requires macOS-arm64 + macOS-x86_64 coverage (architectures,
+        # not versions). Originally macos-14/macos-13; GitHub retired macos-13
+        # and deprecated macos-14 by mid-2026, so as of 2026-08 this runs on
+        # macos-26 (arm64 Tahoe — matches the primary dev environment) and
+        # macos-26-intel (x86_64).
+        # Windows was dropped 2026-08-02 by maintainer decision (no Windows
+        # machine or target in this project); FR-039 / constitution
+        # § Development Workflow amendment pending to match.
+        os: [macos-26, macos-26-intel, ubuntu-latest]
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install native dependencies (macOS)
+        if: runner.os == 'macOS'
+        run: brew install portaudio portmidi libsndfile liblo libogg libvorbis flac opus mpg123 lame
+
+      - name: Install native dependencies (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y \
+            portaudio19-dev libportmidi-dev libsndfile1-dev liblo-dev \
+            libogg-dev libvorbis-dev libflac-dev libopus-dev \
+            libmpg123-dev libmp3lame-dev
+
+      - name: Upgrade pip
+        run: python -m pip install --upgrade pip
+
+      - name: Build vendored Pyo
+        run: pip install -e ./pyo-src/
+
+      - name: Install Phonon (dev extras)
+        run: pip install -e ".[dev]"
+
+      # Runs FIRST so signature drift in vendored Pyo short-circuits the rest
+      # of the suite per FR-041.
+      - name: Pyo audit
+        run: pytest tests/test_pyo_audit.py -v
+
+      # Runs only if Pyo audit passed. Skip-marked Phase 1 tests (FR-036, FR-037)
+      # remain skipped naturally via @pytest.mark.skip.
+      - name: Test suite
+        if: success()
+        run: pytest -v --tb=short
+
+  derive-cross-platform-determinism:
+    name: derive determinism (${{ matrix.os }})
+    needs: test
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-26, macos-26-intel, ubuntu-latest]
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # Phonon's `derive()` is pure Python + numpy — does not depend on Pyo —
+      # so the determinism check skips the native-dep / Pyo build to keep this
+      # job fast and isolated from Pyo build flakiness.
+      - name: Install Phonon (runtime only)
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .
+
+      - name: Compute derive() hash
+        shell: bash
+        run: |
+          python -c "
+          import hashlib
+          from phonon import derive
+          h = hashlib.sha256(derive(1729, 'cross', 'platform').bytes(1024)).hexdigest()
+          open('derive-hash.txt', 'w').write(h)
+          print(h)
+          "
+
+      - name: Upload hash artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: derive-hash-${{ matrix.os }}
+          path: derive-hash.txt
+
+  derive-aggregate:
+    name: derive determinism (cross-platform)
+    needs: derive-cross-platform-determinism
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: hashes
+
+      - name: Verify hashes are identical
+        shell: bash
+        run: |
+          python3 << 'PYEOF'
+          import pathlib, sys
+          hashes = {}
+          for d in sorted(pathlib.Path("hashes").iterdir()):
+              if not d.is_dir():
+                  continue
+              hash_file = d / "derive-hash.txt"
+              if hash_file.exists():
+                  hashes[d.name] = hash_file.read_text().strip()
+          print("Per-platform digests:")
+          for name, h in hashes.items():
+              print(f"  {name}: {h}")
+          unique = set(hashes.values())
+          if len(unique) != 1:
+              expected = next(iter(sorted(hashes.values())))
+              divergent = [name for name, h in hashes.items() if h != expected]
+              sys.exit(f"derive() diverged across platforms: {divergent}")
+          print(f"\nAll {len(hashes)} platforms agree: {next(iter(unique))}")
+          PYEOF

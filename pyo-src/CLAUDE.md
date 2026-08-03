@@ -10,7 +10,7 @@ Public version is defined in two places that must stay in sync: `pyproject.toml`
 
 ## Build & install
 
-The project is built with `setuptools`/`pyproject.toml` (no PEP 517 build isolation issues, but the build invokes a custom `setup.py` for the extension and platform-specific dylib bundling). Building requires native deps: portaudio, portmidi, libsndfile (1.0.30+), liblo (0.32+), and (Linux/macOS) a working C compiler. On macOS, dependencies are expected from Homebrew (paths hard-coded by version in `setup.py` under `pkgs_3rdpary`); on Windows, from `vcpkg` (`VCPKG_ROOT` env var) and MSYS2 mingw64. Bumping a Homebrew dep version means editing the version pin in `setup.py`.
+The project is built with `setuptools`/`pyproject.toml` (no PEP 517 build isolation issues, but the build invokes a custom `setup.py` for the extension and platform-specific dylib bundling). Building requires native deps: portaudio, portmidi, libsndfile (1.0.30+), liblo (0.32+), and (Linux/macOS) a working C compiler. On macOS, dependencies are expected from Homebrew, resolved through the version-independent `opt` symlinks (`/opt/homebrew/opt/<pkg>` on arm64, `/usr/local/opt/<pkg>` on Intel; override the root with `BREW_PACKAGES_ROOT`), so Homebrew version bumps need no `setup.py` edits — the version strings in `pkgs_3rdpary` are informational (the wheel release scripts under `scripts/` still reference them). On Windows, deps come from `vcpkg` (`VCPKG_ROOT` env var) and MSYS2 mingw64.
 
 ```bash
 # In-place dev build (most common when iterating on C sources)

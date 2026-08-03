@@ -1,0 +1,20 @@
+duration: '7:00'
+events: []
+gestures: []
+render_contract:
+  buffer_size: 256
+  control_hz: 200
+  framework_version: 0.1.0
+  pyo_precision: single
+  sample_rate: 48000
+rhetoric: []
+seed: 1729
+title: empty
+trajectories: []
+variance_profile:
+  MACRO: 0.06
+  MESO: 0.15
+  MICRO: 0.2
+  SUPRA: 0.04
+voices: []
+warnings: []

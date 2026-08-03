@@ -40,3 +40,9 @@ htmlcov/
 *.aif
 *.aiff
 *.gestures
+
+# Phonon test artifacts
+tests/snapshots/_*.tmp
+
+# Local tool state
+.claude/scheduled_tasks.lock

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project status
 
-Phonon is a Python composition framework for experimental electronic music — continuous parametric processes whose discrete consequences emerge from threshold crossings. The project is **pre-implementation as of 2026-04-28**: the design specification is complete and the audio backend (Pyo) is vendored, but no `phonon/` Python package exists yet. The next milestones are authoring the project constitution and producing the Phase 0 implementation spec.
+Phonon is a Python composition framework for experimental electronic music — continuous parametric processes whose discrete consequences emerge from threshold crossings. **Phase 0 complete (skeleton + validator + `describe` + test substrate + CI) as of 2026-05-01**: the `phonon` package installs editably, an empty `Score` validates and `describe()`s itself, the seeded RNG hierarchy `derive(seed, kind, name)` produces bit-identical output across runs, the `manual_server` pytest fixture and Pyo-Appendix-C audit are wired up, and the three-platform GitHub Actions matrix (macOS arm64 + x86_64, Linux) builds vendored Pyo from source. The next milestone is Phase 1 — the process primitive layer over `pyo.Thresh` and `pyo.SampHold`, plus seeded surrogates for noise, plus the offline scheduler driving `Server.process()` per block.
 
 The design specification at `context/phonon-v1.md` is the authoritative source for type names, constructor signatures, semantics, and aesthetic refusals. Read it before proposing any framework code.
 
@@ -70,3 +70,18 @@ brew install portaudio portmidi libsndfile liblo libogg libvorbis flac opus mpg1
 ```
 
 When Phonon's CLI exists (Phase 4), the user-facing commands will be `phonon render`, `phonon describe`, `phonon validate`, `phonon package`, `phonon repro`, `phonon midi-list`, `phonon osc-listen`, `phonon hash`. None of these are implemented yet.
+
+<!-- SPECKIT START -->
+## Active Spec Kit work
+
+- **Constitution**: `.specify/memory/constitution.md` v1.0.0 (ratified 2026-04-28)
+- **Active feature**: `specs/001-phase-0-skeleton/` — Phase 0 Skeleton (validator, describe, test infra, CI)
+  - Spec: `specs/001-phase-0-skeleton/spec.md`
+  - Plan: `specs/001-phase-0-skeleton/plan.md`
+  - Research: `specs/001-phase-0-skeleton/research.md`
+  - Data model: `specs/001-phase-0-skeleton/data-model.md`
+  - Contracts: `specs/001-phase-0-skeleton/contracts/{score-api,seedseq-api,manual-server-fixture}.md`
+  - Quickstart: `specs/001-phase-0-skeleton/quickstart.md`
+
+When working on Phase 0 implementation, read `plan.md` first for the structure decision and then the specific contract for the surface you're touching.
+<!-- SPECKIT END -->
