@@ -14,10 +14,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # macos-14 = arm64 (Apple Silicon); macos-13 = x86_64 (Intel)
-        # If GitHub deprecates macos-13, set continue-on-error: ${{ matrix.os == 'macos-13' }}
-        # and document the deprecation date here (per FR-039 conditional escape).
-        os: [macos-14, macos-13, ubuntu-latest, windows-latest]
+        # FR-039 requires macOS-arm64 + macOS-x86_64 coverage (architectures,
+        # not versions). Originally macos-14/macos-13; GitHub retired macos-13
+        # and deprecated macos-14 by mid-2026, so as of 2026-08 this runs on
+        # macos-26 (arm64 Tahoe — matches the primary dev environment) and
+        # macos-26-intel (x86_64).
+        os: [macos-26, macos-26-intel, ubuntu-latest, windows-latest]
     # Windows needs headroom for a cold vcpkg build of the ten native deps
     # (~30-45 min uncached; fast once the x-gha binary cache is warm).
     timeout-minutes: ${{ matrix.os == 'windows-latest' && 60 || 15 }}
@@ -107,7 +109,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-14, macos-13, ubuntu-latest, windows-latest]
+        os: [macos-26, macos-26-intel, ubuntu-latest, windows-latest]
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
