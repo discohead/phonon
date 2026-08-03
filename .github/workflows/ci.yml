@@ -1,7 +1,10 @@
 name: CI
 
+# push is scoped to main so PR branches run the matrix once (via
+# pull_request) instead of twice per push.
 on:
   push:
+    branches: [main]
   pull_request:
 
 jobs:
@@ -15,7 +18,9 @@ jobs:
         # If GitHub deprecates macos-13, set continue-on-error: ${{ matrix.os == 'macos-13' }}
         # and document the deprecation date here (per FR-039 conditional escape).
         os: [macos-14, macos-13, ubuntu-latest, windows-latest]
-    timeout-minutes: 15
+    # Windows needs headroom for a cold vcpkg build of the ten native deps
+    # (~30-45 min uncached; fast once the x-gha binary cache is warm).
+    timeout-minutes: ${{ matrix.os == 'windows-latest' && 60 || 15 }}
     steps:
       - uses: actions/checkout@v4
 
@@ -53,6 +58,13 @@ jobs:
         uses: lukka/run-vcpkg@v11
         with:
           vcpkgGitCommitId: c82f74667287d3dc386bce81e44964370c91a289
+
+      # run-vcpkg configures the x-gha binary cache, but plain `run:` steps
+      # don't get ACTIONS_RUNTIME_TOKEN/ACTIONS_CACHE_URL; this exposes them
+      # so the manual vcpkg install below can read/write the cache.
+      - name: Expose Actions runtime for vcpkg binary cache (Windows)
+        if: runner.os == 'Windows'
+        uses: crazy-max/ghaction-github-runtime@v3
 
       - name: Install Pyo native deps via vcpkg (Windows)
         if: runner.os == 'Windows'
