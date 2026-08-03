@@ -26,3 +26,7 @@ include = ["phonon*"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 norecursedirs = ["pyo-src", ".git", ".venv", "build", "dist"]
+# Tests import helpers as `tests.snapshots.*`, which requires the repo root
+# on sys.path regardless of how pytest is invoked (bare `pytest` vs
+# `python -m pytest`).
+pythonpath = ["."]
